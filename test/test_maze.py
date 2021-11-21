@@ -11,5 +11,9 @@ class TestMaze(unittest.TestCase):
         m = Maze()
         self.assertIsNone(m.graph)
 
+    def test_maze_class_fromJson_method_existence(self):
+        m = Maze()
+        self.assertTrue(hasattr(m, 'fromJson'))
+
 if __name__ == '__main__':
     unittest.main()
