@@ -11,6 +11,10 @@ class TestMaze(unittest.TestCase):
         m = Maze()
         self.assertTrue(hasattr(m, 'objects'))
 
+    def test_maze_class_names_existence(self):
+        m = Maze()
+        self.assertTrue(hasattr(m, 'names'))
+
     def test_maze_class_cardinal_existence(self):
         m = Maze()
         self.assertTrue(hasattr(m, '_cardinals'))
@@ -23,8 +27,12 @@ class TestMaze(unittest.TestCase):
         m = Maze()
         self.assertDictEqual(m.graph, {})
 
+    def test_maze_class_names_init_value(self):
+        m = Maze()
+        self.assertDictEqual(m.names, {})
+
     # For this solution I'm forcing the cardinals to be in this exact order
-    def test_maze_class_graph_init_value(self):
+    def test_maze_class__cardinals_init_value(self):
         m = Maze()
         self.assertListEqual(m._cardinals, ['north', 'south', 'west', 'east'])
 
@@ -104,6 +112,14 @@ class TestMaze(unittest.TestCase):
         }
         self.assertDictEqual(m.objects, test_objects)
 
+        test_names = {
+            1 : 'Hallway',
+            2 : 'Dining Room',
+            3 : 'Kitchen',
+            4 : 'Sun Room'
+        }
+        self.assertDictEqual(m.names, test_names)
+
     def test_maze_class_fromJson_method_with_map_2(self):
         test_graph = {
             1 : [2, 7],
@@ -117,6 +133,28 @@ class TestMaze(unittest.TestCase):
         m = Maze()
         m.fromJson('json_files/map2.json')
         self.assertDictEqual(m.graph, test_graph)
+
+        test_objects = {
+            1 : [],
+            2 : [],
+            3 : ['Knife'],
+            4 : [],
+            5 : ['Pillow'],
+            6 : [],
+            7 : ['Potted Plant']
+        }
+        self.assertDictEqual(m.objects, test_objects)
+
+        test_names = {
+            1 : 'Hallway',
+            2 : 'Dining Room',
+            3 : 'Kitchen',
+            4 : 'Sun Room',
+            5 : 'Bedroom',
+            6 : 'Bathroom',
+            7 : 'Living room'
+        }
+        self.assertDictEqual(m.names, test_names)
 
 if __name__ == '__main__':
     unittest.main()

@@ -5,6 +5,7 @@ class Maze():
     def __init__(self):
         self.graph = {}
         self.objects = {}
+        self.names = {}
         self._cardinals = ['north', 'south', 'west', 'east']
 
     # Given a dictionary which represents a room, return a list of room's neighbours
@@ -30,13 +31,11 @@ class Maze():
             object_list = self._getRoomObjects(room)
             self.objects[room['id']] = object_list
 
-    # Given a dictionary which represents the map, create the whole Maze
-    def _createMaze(self, map):
-        self._createGraph(map)
+            self.names[room['id']] = room['name']
 
     # Load the map from a json file
     def fromJson(self, json_filename):
         with open(json_filename) as json_file:
             json_map = json.loads(json_file.read())
-            self._createMaze(json_map)
+            self._createGraph(json_map)
             
