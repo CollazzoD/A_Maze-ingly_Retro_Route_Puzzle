@@ -93,7 +93,7 @@ class TestMaze(unittest.TestCase):
         m._createGraph(map_test)
         self.assertDictEqual(m.graph, test_graph)
 
-    def test_maze_class_collectObject_method(self):
+    def test_maze_class_collectObjects_method_one_object(self):
         map_test = {'rooms': [{'id': 1, 'name': 'Hallway', 'north': 2, 'objects': []}, {'id': 2, 'name': 'Dining Room', 'south': 1, 'west': 3, 'east': 4, 'objects': []}, {'id': 3, 'name': 'Kitchen', 'east': 2, 'objects': [{'name': 'Knife'}]}, {'id': 4, 'name': 'Sun Room', 'west': 2, 'objects': [{'name': 'Potted Plant'}]}]}
         test_graph = {
             1 : [2],
@@ -103,12 +103,27 @@ class TestMaze(unittest.TestCase):
         }
         m = Maze()
         m._createGraph(map_test)
-        ret = m.collectObject(3, 'Potted Plant')
-        self.assertIsNone(ret)
+        ret = m.collectObjects(3, ['Potted Plant'])
+        self.assertListEqual(ret, [])
 
-        ret = m.collectObject(3, 'Knife')
-        self.assertEqual(ret, 'Knife')
+        ret = m.collectObjects(3, ['Knife', 'Potted Plant'])
+        self.assertListEqual(ret, ['Knife'])
         self.assertListEqual(m.objects[3], [])
+
+    def test_maze_class_collectObjects_method_multiple_objects(self):
+        map_test = {'rooms': [{'id': 1, 'name': 'Hallway', 'north': 2, 'objects': []}, {'id': 2, 'name': 'Dining Room', 'south': 1, 'west': 3, 'east': 4, 'objects': []}, {'id': 3, 'name': 'Kitchen', 'east': 2, 'objects': [{'name': 'Knife'}, {'name': 'Spoon'}]}, {'id': 4, 'name': 'Sun Room', 'west': 2, 'objects': [{'name': 'Potted Plant'}]}]}
+        test_graph = {
+            1 : [2],
+            2 : [1, 3, 4],
+            3 : [2],
+            4 : [2]
+        }
+        m = Maze()
+        m._createGraph(map_test)
+        ret = m.collectObjects(3, ['Knife', 'Spoon'])
+        self.assertListEqual(ret, ['Knife', 'Spoon'])
+        self.assertListEqual(m.objects[3], [])
+
 
     def test_maze_class_fromJson_method_with_map_1(self):
         test_graph = {
