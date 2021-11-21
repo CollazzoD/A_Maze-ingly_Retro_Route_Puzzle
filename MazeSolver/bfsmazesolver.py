@@ -29,24 +29,24 @@ class BFSMazeSolver(MazeSolver):
 
     # BFS which gives shortest path from start to stop
     def _BFS_SP(self, graph, start, stop):
-        visited = [] # List to keep track of visited nodes.
-        queue = []     #Initialize a queue
+        queue = []
+        visited = []
         parents = {}
         
         visited.append(start)
         queue.append(start)
 
         while queue:
-            s = queue.pop(0) 
+            v = queue.pop(0) 
 
-            if s == stop:
+            if v == stop:
                 return parents[stop] + [stop]
 
-            for neighbour in graph[s]:
+            for neighbour in graph[v]:
                 if neighbour not in visited:
                     visited.append(neighbour)
                     queue.append(neighbour)
-                    p = parents.get(s, [])
-                    parents[neighbour] = p + [s]
+                    p = parents.get(v, [])
+                    parents[neighbour] = p + [v]
 
         return []
