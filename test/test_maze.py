@@ -20,10 +20,6 @@ class TestMaze(unittest.TestCase):
         m = Maze()
         self.assertListEqual(m._cardinals, ['north', 'south', 'west', 'east'])
 
-    def test_maze_class_fromJson_method_existence(self):
-        m = Maze()
-        self.assertTrue(hasattr(m, 'fromJson'))
-
     def test_maze_class_fromJson_method_with_map_1(self):
         test_graph = {
             1 : [2],

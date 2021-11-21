@@ -29,5 +29,5 @@ class Maze():
     def fromJson(self, json_filename):
         with open(json_filename) as json_file:
             json_map = json.loads(json_file.read())
-            self._createGraph(json_map)
+            self._createMaze(json_map)
             
