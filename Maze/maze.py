@@ -17,7 +17,7 @@ class Maze():
 
     # Given a dictionary which represents a room, return a list of room's objects 
     def _getRoomObjects(self, room):
-        objects = room['objects']
+        objects = [object['name'] for object in room['objects']]
         return objects
     
     # Given a dictionary which represents the map, create the graph
@@ -28,6 +28,7 @@ class Maze():
             self.graph[room['id']] = neighbours
 
             object_list = self._getRoomObjects(room)
+            self.objects[room['id']] = object_list
 
     # Given a dictionary which represents the map, create the whole Maze
     def _createMaze(self, map):
