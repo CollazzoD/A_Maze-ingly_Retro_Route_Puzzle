@@ -21,8 +21,10 @@ class Maze():
         objects = [object['name'] for object in room['objects']]
         return objects
     
-    # Given a dictionary which represents the map, create the graph
-    # with an "Adjacency List" representation
+    # Given a dictionary which represents the map: 
+    # 1 - create the graph with an "Adjacency List" representation
+    # 2 - create a room_id/object_list dictionary
+    # 3 - create a room_id/name dictionary
     def _createGraph(self, map):
         for room in map['rooms']:
             neighbours = self._getRoomNeighbours(room)
