@@ -20,6 +20,45 @@ class TestMaze(unittest.TestCase):
         m = Maze()
         self.assertListEqual(m._cardinals, ['north', 'south', 'west', 'east'])
 
+
+    def test_maze_class__getNeighbours(self):
+        m = Maze()
+        room = {'id': 1, 'north' : 2, 'west' : 3, 'east' : 4}
+        self.assertListEqual(m._getNeighbours(room), [2, 3, 4])
+
+        room = {'id': 1, 'west' : 2, 'north' : 3, 'east' : 4}
+        self.assertListEqual(m._getNeighbours(room), [3, 2, 4])
+
+        room = {'id': 1, 'west' : 3, 'south' : 2, 'north' : 1, 'east' : 4}
+        self.assertListEqual(m._getNeighbours(room), [1, 2, 3, 4])
+
+    def test_maze_class_createGraph_with_map_1(self):
+        map_test = {'rooms': [{'id': 1, 'name': 'Hallway', 'north': 2, 'objects': []}, {'id': 2, 'name': 'Dining Room', 'south': 1, 'west': 3, 'east': 4, 'objects': []}, {'id': 3, 'name': 'Kitchen', 'east': 2, 'objects': [{'name': 'Knife'}]}, {'id': 4, 'name': 'Sun Room', 'west': 2, 'objects': [{'name': 'Potted Plant'}]}]}
+        test_graph = {
+            1 : [2],
+            2 : [1, 3, 4],
+            3 : [2],
+            4 : [2]
+        }
+        m = Maze()
+        m._createGraph(map_test)
+        self.assertDictEqual(m.graph, test_graph)
+
+    def test_maze_class_createGraph_with_map_2(self):
+        map_test = {'rooms': [{'id': 1, 'name': 'Hallway', 'north': 2, 'east': 7, 'objects': []}, {'id': 2, 'name': 'Dining Room', 'north': 5, 'south': 1, 'west': 3, 'east': 4, 'objects': []}, {'id': 3, 'name': 'Kitchen', 'east': 2, 'objects': [{'name': 'Knife'}]}, {'id': 4, 'name': 'Sun Room', 'west': 2, 'north': 6, 'south': 7, 'objects': []}, {'id': 5, 'name': 'Bedroom', 'south': 2, 'east': 6, 'objects': [{'name': 'Pillow'}]}, {'id': 6, 'name': 'Bathroom', 'west': 5, 'south': 4, 'objects': []}, {'id': 7, 'name': 'Living room', 'west': 1, 'north': 4, 'objects': [{'name': 'Potted Plant'}]}]}
+        test_graph = {
+            1 : [2, 7],
+            2 : [5, 1, 3, 4],
+            3 : [2],
+            4 : [6, 7, 2],
+            5 : [2, 6],
+            6 : [4, 5],
+            7 : [4, 1]
+        }
+        m = Maze()
+        m._createGraph(map_test)
+        self.assertDictEqual(m.graph, test_graph)
+
     def test_maze_class_fromJson_method_with_map_1(self):
         test_graph = {
             1 : [2],
@@ -33,13 +72,13 @@ class TestMaze(unittest.TestCase):
 
     def test_maze_class_fromJson_method_with_map_2(self):
         test_graph = {
-        1 : [2, 7],
-        2 : [5, 1, 3, 4],
-        3 : [2],
-        4 : [6, 7, 2],
-        5 : [2, 6],
-        6 : [4, 5],
-        7 : [4, 1]
+            1 : [2, 7],
+            2 : [5, 1, 3, 4],
+            3 : [2],
+            4 : [6, 7, 2],
+            5 : [2, 6],
+            6 : [4, 5],
+            7 : [4, 1]
         }
         m = Maze()
         m.fromJson('json_files/map2.json')
