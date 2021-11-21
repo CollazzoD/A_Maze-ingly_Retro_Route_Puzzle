@@ -93,6 +93,23 @@ class TestMaze(unittest.TestCase):
         m._createGraph(map_test)
         self.assertDictEqual(m.graph, test_graph)
 
+    def test_maze_class_collectObject_method(self):
+        map_test = {'rooms': [{'id': 1, 'name': 'Hallway', 'north': 2, 'objects': []}, {'id': 2, 'name': 'Dining Room', 'south': 1, 'west': 3, 'east': 4, 'objects': []}, {'id': 3, 'name': 'Kitchen', 'east': 2, 'objects': [{'name': 'Knife'}]}, {'id': 4, 'name': 'Sun Room', 'west': 2, 'objects': [{'name': 'Potted Plant'}]}]}
+        test_graph = {
+            1 : [2],
+            2 : [1, 3, 4],
+            3 : [2],
+            4 : [2]
+        }
+        m = Maze()
+        m._createGraph(map_test)
+        ret = m.collectObject(3, 'Potted Plant')
+        self.assertIsNone(ret)
+
+        ret = m.collectObject(3, 'Knife')
+        self.assertEqual(ret, 'Knife')
+        self.assertListEqual(m.objects[3], [])
+
     def test_maze_class_fromJson_method_with_map_1(self):
         test_graph = {
             1 : [2],

@@ -34,7 +34,15 @@ class Maze():
             self.objects[room['id']] = object_list
 
             self.names[room['id']] = room['name']
-
+    
+    # Collect an object in the room if present
+    def collectObject(self, room, object):
+        ret = None
+        if object in self.objects[room]:
+            ret = object
+            self.objects[room].remove(object)
+        return ret
+            
     # Load the map from a json file
     def fromJson(self, json_filename):
         with open(json_filename) as json_file:
