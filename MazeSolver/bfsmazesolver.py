@@ -4,27 +4,28 @@ class BFSMazeSolver(MazeSolver):
     def __init__(self):
         self.output = []
 
-    def _navigateRoom(self, map, room, objects_to_collect):
-        collected = map.collectObjects(room, objects_to_collect)
+    # Navigate a room, collecting objects while passing and updating the maze
+    def _navigateRoom(self, maze, room, objects_to_collect):
+        collected = maze.collectObjects(room, objects_to_collect)
         self.output.append([room, collected])
         for object in collected:
             objects_to_collect.remove(object)
 
-    def solve(self, map, starting_room, objects_to_collect):
-        # Get a path to navigate all the map
-        path = self._BFS(map.graph, starting_room)
+    def solve(self, maze, starting_room, objects_to_collect):
+        # Get a path to navigate all the maze
+        path = self._BFS(maze.graph, starting_room)
 
         # First room
-        self._navigateRoom(map, starting_room, objects_to_collect)
+        self._navigateRoom(maze, starting_room, objects_to_collect)
 
         if not objects_to_collect:
             return
 
-        # Navigate the map according to path
+        # Navigate the maze according to path
         for index in range(len(path) - 1):
-            navigation = self._BFS_SP(map.graph, path[index], path[index + 1])[1:]
+            navigation = self._BFS_SP(maze.graph, path[index], path[index + 1])[1:]
             for room in navigation:
-                self._navigateRoom(map, room, objects_to_collect)
+                self._navigateRoom(maze, room, objects_to_collect)
                 if not objects_to_collect:
                     return
 
