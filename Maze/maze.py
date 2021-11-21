@@ -1,3 +1,3 @@
 class Maze():
     def __init__(self):
-        pass
+        self.graph = None
