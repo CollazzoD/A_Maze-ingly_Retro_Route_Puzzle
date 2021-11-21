@@ -1,44 +1,44 @@
 import unittest
-from Maze.maze import Maze
+from Maze.jsonmaze import JsonMaze
 
 class TestMaze(unittest.TestCase):
     
     def test_maze_class_graph_existence(self):
-        m = Maze()
+        m = JsonMaze()
         self.assertTrue(hasattr(m, 'graph'))
 
     def test_maze_class_objects_existence(self):
-        m = Maze()
+        m = JsonMaze()
         self.assertTrue(hasattr(m, 'objects'))
 
     def test_maze_class_names_existence(self):
-        m = Maze()
+        m = JsonMaze()
         self.assertTrue(hasattr(m, 'names'))
 
     def test_maze_class_cardinal_existence(self):
-        m = Maze()
+        m = JsonMaze()
         self.assertTrue(hasattr(m, '_cardinals'))
 
     def test_maze_class_objects_init_value(self):
-        m = Maze()
+        m = JsonMaze()
         self.assertDictEqual(m.objects, {})
 
     def test_maze_class_graph_init_value(self):
-        m = Maze()
+        m = JsonMaze()
         self.assertDictEqual(m.graph, {})
 
     def test_maze_class_names_init_value(self):
-        m = Maze()
+        m = JsonMaze()
         self.assertDictEqual(m.names, {})
 
     # For this solution I'm forcing the cardinals to be in this exact order
     def test_maze_class__cardinals_init_value(self):
-        m = Maze()
+        m = JsonMaze()
         self.assertListEqual(m._cardinals, ['north', 'south', 'west', 'east'])
 
 
     def test_maze_class__getRoomNeighbours(self):
-        m = Maze()
+        m = JsonMaze()
         room = {'id': 1, 'north' : 2, 'west' : 3, 'east' : 4}
         self.assertListEqual(m._getRoomNeighbours(room), [2, 3, 4])
 
@@ -49,7 +49,7 @@ class TestMaze(unittest.TestCase):
         self.assertListEqual(m._getRoomNeighbours(room), [1, 2, 3, 4])
 
     def test_maze_class__getRoomObjects(self):
-        m = Maze()
+        m = JsonMaze()
 
         objects_in = []
         objects_out = []
@@ -74,7 +74,7 @@ class TestMaze(unittest.TestCase):
             3 : [2],
             4 : [2]
         }
-        m = Maze()
+        m = JsonMaze()
         m._createGraph(map_test)
         self.assertDictEqual(m.graph, test_graph)
 
@@ -89,7 +89,7 @@ class TestMaze(unittest.TestCase):
             6 : [4, 5],
             7 : [4, 1]
         }
-        m = Maze()
+        m = JsonMaze()
         m._createGraph(map_test)
         self.assertDictEqual(m.graph, test_graph)
 
@@ -101,7 +101,7 @@ class TestMaze(unittest.TestCase):
             3 : [2],
             4 : [2]
         }
-        m = Maze()
+        m = JsonMaze()
         m._createGraph(map_test)
         ret = m.collectObjects(3, ['Potted Plant'])
         self.assertListEqual(ret, [])
@@ -118,22 +118,22 @@ class TestMaze(unittest.TestCase):
             3 : [2],
             4 : [2]
         }
-        m = Maze()
+        m = JsonMaze()
         m._createGraph(map_test)
         ret = m.collectObjects(3, ['Knife', 'Spoon'])
         self.assertListEqual(ret, ['Knife', 'Spoon'])
         self.assertListEqual(m.objects[3], [])
 
 
-    def test_maze_class_fromJson_method_with_map_1(self):
+    def test_maze_class_fromFile_method_with_map_1(self):
         test_graph = {
             1 : [2],
             2 : [1, 3, 4],
             3 : [2],
             4 : [2]
         }
-        m = Maze()
-        m.fromJson('json_files/map1.json')
+        m = JsonMaze()
+        m.fromFile('json_files/map1.json')
         self.assertDictEqual(m.graph, test_graph)
 
         test_objects = {
@@ -152,7 +152,7 @@ class TestMaze(unittest.TestCase):
         }
         self.assertDictEqual(m.names, test_names)
 
-    def test_maze_class_fromJson_method_with_map_2(self):
+    def test_maze_class_fromFile_method_with_map_2(self):
         test_graph = {
             1 : [2, 7],
             2 : [5, 1, 3, 4],
@@ -162,8 +162,8 @@ class TestMaze(unittest.TestCase):
             6 : [4, 5],
             7 : [4, 1]
         }
-        m = Maze()
-        m.fromJson('json_files/map2.json')
+        m = JsonMaze()
+        m.fromFile('json_files/map2.json')
         self.assertDictEqual(m.graph, test_graph)
 
         test_objects = {

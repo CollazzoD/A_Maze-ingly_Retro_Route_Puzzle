@@ -1,0 +1,9 @@
+{
+    "rooms": [
+        {
+            "id": 1,
+            "name": "Room",
+            "objects": [{"name" : "Keys"}, {"name" : "Phone"}]
+        }
+    ]
+}
