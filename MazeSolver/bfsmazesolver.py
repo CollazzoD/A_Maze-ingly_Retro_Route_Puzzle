@@ -8,20 +8,45 @@ class BFSMazeSolver(MazeSolver):
         pass
 
     # BFS implementation from Wikipedia pseudocode
-    def _BFS(self, graph, starting_node):
+    # https://en.wikipedia.org/wiki/Breadth-first_search
+    def _BFS(self, graph, start):
         queue = []
         visited = []
         path = []
         
-        visited.append(starting_node)
-        queue.append(starting_node)
+        visited.append(start)
+        queue.append(start)
+
+        while queue:
+            v = queue.pop(0) 
+            path.append(v)
+
+            for neighbour in graph[v]:
+                if neighbour not in visited:
+                    visited.append(neighbour)
+                    queue.append(neighbour)
+        return path
+
+    # BFS which gives shortest path from start to stop
+    def _BFS_SP(self, graph, start, stop):
+        visited = [] # List to keep track of visited nodes.
+        queue = []     #Initialize a queue
+        parents = {}
+        
+        visited.append(start)
+        queue.append(start)
 
         while queue:
             s = queue.pop(0) 
-            path.append(s)
+
+            if s == stop:
+                return parents[stop] + [stop]
 
             for neighbour in graph[s]:
                 if neighbour not in visited:
                     visited.append(neighbour)
                     queue.append(neighbour)
-        return path
+                    p = parents.get(s, [])
+                    parents[neighbour] = p + [s]
+
+        return []
