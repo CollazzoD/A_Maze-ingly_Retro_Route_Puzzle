@@ -32,6 +32,20 @@ class TestMaze(unittest.TestCase):
         room = {'id': 1, 'west' : 3, 'south' : 2, 'north' : 1, 'east' : 4}
         self.assertListEqual(m._getNeighbours(room), [1, 2, 3, 4])
 
+    def test_maze_class__getObjects(self):
+        m = Maze()
+        objects = []
+        room = {'id': 1, 'objects': objects}
+        self.assertListEqual(m._getObjects(room), objects)
+
+        objects = ['Knife']
+        room = {'id': 1, 'objects': objects}
+        self.assertListEqual(m._getObjects(room), objects)
+
+        objects = ['Knife', 'Potted Plant']
+        room = {'id': 1, 'objects': objects}
+        self.assertListEqual(m._getObjects(room), objects)
+
     def test_maze_class_createGraph_with_map_1(self):
         map_test = {'rooms': [{'id': 1, 'name': 'Hallway', 'north': 2, 'objects': []}, {'id': 2, 'name': 'Dining Room', 'south': 1, 'west': 3, 'east': 4, 'objects': []}, {'id': 3, 'name': 'Kitchen', 'east': 2, 'objects': [{'name': 'Knife'}]}, {'id': 4, 'name': 'Sun Room', 'west': 2, 'objects': [{'name': 'Potted Plant'}]}]}
         test_graph = {

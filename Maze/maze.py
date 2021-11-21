@@ -6,7 +6,7 @@ class Maze():
         self.graph = {}
         self._cardinals = ['north', 'south', 'west', 'east']
 
-    # Given a dictionary which represents a room, return a list of neighbours
+    # Given a dictionary which represents a room, return a list of room's neighbours
     def _getNeighbours(self, room):
         neighbours = []
         for cardinal in self._cardinals:
@@ -14,6 +14,11 @@ class Maze():
                 neighbours.append(room[cardinal])
         return neighbours
 
+    # Given a dictionary which represents a room, return a list of room's objects 
+    def _getObjects(self, room):
+        objects = room['objects']
+        return objects
+    
     # Given a dictionary which represents the map, create the graph
     # with an "Adjacency List" representation
     def _createGraph(self, map):
