@@ -35,7 +35,7 @@ class JsonMaze(Maze):
 
             self.names[room['id']] = room['name']
     
-    # Collect objects in the room if present (remove them if found)
+    # Collect objects in the room if present abd remove them if found
     def collectObjects(self, room, objects):
         ret = []
         for object in objects:
