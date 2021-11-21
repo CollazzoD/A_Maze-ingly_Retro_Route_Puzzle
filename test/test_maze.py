@@ -7,9 +7,17 @@ class TestMaze(unittest.TestCase):
         m = Maze()
         self.assertTrue(hasattr(m, 'graph'))
 
+    def test_maze_class_objects_existence(self):
+        m = Maze()
+        self.assertTrue(hasattr(m, 'objects'))
+
     def test_maze_class_cardinal_existence(self):
         m = Maze()
         self.assertTrue(hasattr(m, '_cardinals'))
+
+    def test_maze_class_objects_init_value(self):
+        m = Maze()
+        self.assertDictEqual(m.objects, {})
 
     def test_maze_class_graph_init_value(self):
         m = Maze()
@@ -21,30 +29,30 @@ class TestMaze(unittest.TestCase):
         self.assertListEqual(m._cardinals, ['north', 'south', 'west', 'east'])
 
 
-    def test_maze_class__getNeighbours(self):
+    def test_maze_class__getRoomNeighbours(self):
         m = Maze()
         room = {'id': 1, 'north' : 2, 'west' : 3, 'east' : 4}
-        self.assertListEqual(m._getNeighbours(room), [2, 3, 4])
+        self.assertListEqual(m._getRoomNeighbours(room), [2, 3, 4])
 
         room = {'id': 1, 'west' : 2, 'north' : 3, 'east' : 4}
-        self.assertListEqual(m._getNeighbours(room), [3, 2, 4])
+        self.assertListEqual(m._getRoomNeighbours(room), [3, 2, 4])
 
         room = {'id': 1, 'west' : 3, 'south' : 2, 'north' : 1, 'east' : 4}
-        self.assertListEqual(m._getNeighbours(room), [1, 2, 3, 4])
+        self.assertListEqual(m._getRoomNeighbours(room), [1, 2, 3, 4])
 
-    def test_maze_class__getObjects(self):
+    def test_maze_class__getRoomObjects(self):
         m = Maze()
         objects = []
         room = {'id': 1, 'objects': objects}
-        self.assertListEqual(m._getObjects(room), objects)
+        self.assertListEqual(m._getRoomObjects(room), objects)
 
         objects = ['Knife']
         room = {'id': 1, 'objects': objects}
-        self.assertListEqual(m._getObjects(room), objects)
+        self.assertListEqual(m._getRoomObjects(room), objects)
 
         objects = ['Knife', 'Potted Plant']
         room = {'id': 1, 'objects': objects}
-        self.assertListEqual(m._getObjects(room), objects)
+        self.assertListEqual(m._getRoomObjects(room), objects)
 
     def test_maze_class_createGraph_with_map_1(self):
         map_test = {'rooms': [{'id': 1, 'name': 'Hallway', 'north': 2, 'objects': []}, {'id': 2, 'name': 'Dining Room', 'south': 1, 'west': 3, 'east': 4, 'objects': []}, {'id': 3, 'name': 'Kitchen', 'east': 2, 'objects': [{'name': 'Knife'}]}, {'id': 4, 'name': 'Sun Room', 'west': 2, 'objects': [{'name': 'Potted Plant'}]}]}
