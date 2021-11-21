@@ -7,9 +7,18 @@ class TestMaze(unittest.TestCase):
         m = Maze()
         self.assertTrue(hasattr(m, 'graph'))
 
+    def test_maze_class_cardinal_existence(self):
+        m = Maze()
+        self.assertTrue(hasattr(m, '_cardinals'))
+
     def test_maze_class_graph_init_value(self):
         m = Maze()
         self.assertDictEqual(m.graph, {})
+
+    # For this solution I'm forcing the cardinals to be in this exact order
+    def test_maze_class_graph_init_value(self):
+        m = Maze()
+        self.assertListEqual(m._cardinals, ['north', 'south', 'west', 'east'])
 
     def test_maze_class_fromJson_method_existence(self):
         m = Maze()
