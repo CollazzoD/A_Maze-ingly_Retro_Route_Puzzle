@@ -1,5 +1,6 @@
 import unittest
 from MazeSolver.bfsmazesolver import BFSMazeSolver
+from Maze.maze import Maze
 
 class TestBFSMazeSolver(unittest.TestCase):
     
@@ -79,6 +80,40 @@ class TestBFSMazeSolver(unittest.TestCase):
 
         output = b._BFS_SP(test_graph, 6, 1)
         self.assertListEqual(output, [6, 4, 7, 1])
+
+    def test_BFSMazeSolver_class_solve_with_map_1(self):
+        m = Maze()
+        m.fromJson("json_files/map1.json")
+
+        expected_output = [ [2, []],
+                            [1, []],
+                            [2, []],
+                            [3, ['Knife']],
+                            [2, []],
+                            [4, ['Potted Plant']]]
+        b = BFSMazeSolver()
+        b.solve(m, 2, ['Knife', 'Potted Plant'])
+        self.assertListEqual(b.output, expected_output)
+
+    def test_BFSMazeSolver_class_solve_with_map_2(self):
+        m = Maze()
+        m.fromJson("json_files/map2.json")
+
+        expected_output = [ [4, []],
+                            [6, []],
+                            [4, []],
+                            [7, ['Potted Plant']],
+                            [4, []],
+                            [2, []],
+                            [5, ['Pillow']],
+                            [2, []],
+                            [1, []],
+                            [2, []],
+                            [3, ['Knife']]]
+        b = BFSMazeSolver()
+        b.solve(m, 4, ['Knife', 'Potted Plant', 'Pillow'])
+        self.assertListEqual(b.output, expected_output)
+    
 
 if __name__ == '__main__':
     unittest.main()
