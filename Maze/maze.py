@@ -1,5 +1,8 @@
 from abc import ABC, abstractmethod
 
+class InvalidMaze(Exception):
+    pass
+
 class Maze(ABC):
     @abstractmethod
     # Method that open a file type representing a map and convert it into a Maze

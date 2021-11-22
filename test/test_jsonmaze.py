@@ -1,5 +1,6 @@
 import unittest
 from Maze.jsonmaze import JsonMaze
+from Maze.maze import InvalidMaze
 
 class TestMaze(unittest.TestCase):
     
@@ -124,7 +125,6 @@ class TestMaze(unittest.TestCase):
         self.assertListEqual(ret, ['Knife', 'Spoon'])
         self.assertListEqual(m.objects[3], [])
 
-
     def test_maze_class_fromFile_method_with_map_1(self):
         test_graph = {
             1 : [2],
@@ -187,6 +187,44 @@ class TestMaze(unittest.TestCase):
             7 : 'Living room'
         }
         self.assertDictEqual(m.names, test_names)
+
+    def test_maze_class__checkType_method(self):
+        m = JsonMaze()
+        name = "room"
+        value = 1
+        type = str
+
+        self.assertRaises(InvalidMaze, m._checkType, name, value, type)
+
+    def test_maze_class__validateRoom_method(self):
+        m = JsonMaze()
+
+        room = {'id' : "1", 'name' : "Test", 'north' : 2, 'objects' : []}
+        self.assertRaises(InvalidMaze, m._validateRoom, room)
+
+        room = {'id' : 1, 'name' : 121, 'north' : 2, 'objects' : []}
+        self.assertRaises(InvalidMaze, m._validateRoom, room)
+
+        room = {'id' : 1, 'name' : "Test", 'north' : "2", 'objects' : []}
+        self.assertRaises(InvalidMaze, m._validateRoom, room)
+
+        room = {'id' : 1, 'name' : "Test", 'north' : 2, 'objects' : "Error"}
+        self.assertRaises(InvalidMaze, m._validateRoom, room)
+
+        room = {'id' : 1, 'name' : "Test", 'north' : 2, 'objects' : [1]}
+        self.assertRaises(InvalidMaze, m._validateRoom, room)
+
+        room = {'name' : "Test", 'north' : 2, 'objects' : [1]}
+        self.assertRaises(InvalidMaze, m._validateRoom, room)
+
+    def test_maze_class__validateRooms_method(self):
+        m = JsonMaze()
+
+        rooms= {'room' : [{'id' : 1, 'name' : "Test", 'north' : 2, 'objects' : []}]}
+        self.assertRaises(InvalidMaze, m._validateRooms, rooms)
+
+        rooms= {'rooms' : [{'id' : "1", 'name' : "Test", 'north' : 2, 'objects' : []}]}
+        self.assertRaises(InvalidMaze, m._validateRooms, rooms)
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,4 +1,4 @@
-from Maze.maze import Maze
+from Maze.maze import Maze, InvalidMaze
 import json
 
 class JsonMaze(Maze):
@@ -43,10 +43,50 @@ class JsonMaze(Maze):
                 ret.append(object)
                 self.objects[room].remove(object)
         return ret
+
+    def _validateRooms(self, json_map):
+        try:
+            rooms = json_map['rooms']
+            for room in json_map['rooms']:
+                self._validateRoom(room)
+        except KeyError as err:
+            raise(InvalidMaze(f"Map not well formatted -> {err}"))
+
+    def _checkType(self, name, value, type):
+        if not isinstance(value, type):
+            raise(InvalidMaze(f"{name} shall be of type {type}"))
+
+    def _validateRoom(self, room):
+        try:
+            self._checkType("room['id']", room['id'], int)
+            self._checkType("room['name']", room['name'], str)
+
+            # Check neighbours type
+            for cardinal in self._cardinals:
+                if cardinal in room:
+                    self._checkType(f"room['{cardinal}']", room[cardinal], int)
             
+            # Check objects type
+            self._checkType("room['objects'", room['objects'], list)
+            for object in room['objects']:
+                self._checkType(f"room['objects'][{object['name']}]", object['name'], str)
+        
+        except KeyError as err:
+            raise(InvalidMaze(f"Map not well formatted -> {err}"))
+        except TypeError as err:
+            raise(InvalidMaze(f"Map not well formatted -> {err}"))
+                
+            
+    def _validateJson(self, json_map):
+        self._validateRooms(json_map)
+        
     # Load the map from a json file
     def fromFile(self, json_filename):
-        with open(json_filename) as json_file:
-            json_map = json.loads(json_file.read())
-            self._createGraph(json_map)
-            
+        try:
+            with open(json_filename) as json_file:
+                json_map = json.loads(json_file.read())
+                self._validateJson(json_map)
+                self._createGraph(json_map)
+        except json.decoder.JSONDecodeError as err:
+            raise(InvalidMaze("Not a valid json"))
+        
