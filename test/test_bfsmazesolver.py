@@ -111,6 +111,17 @@ class TestBFSMazeSolver(unittest.TestCase):
         b.solve(m, 2, ['Knife', 'Potted Plant'])
         self.assertListEqual(b.output, expected_output)
 
+    def test_BFSMazeSolver_class__checkIfAllObjects_with_map_1(self):
+        m = JsonMaze()
+        m.fromFile("json_files/map1.json")
+
+        objects_to_collect = ['Vibranium']
+        b = BFSMazeSolver()
+        self.assertFalse(b._checkIfAllObjects(m, objects_to_collect))
+
+        objects_to_collect = ['Knife']
+        self.assertTrue(b._checkIfAllObjects(m, objects_to_collect))
+
     def test_BFSMazeSolver_class_solve_with_map_2(self):
         m = JsonMaze()
         m.fromFile("json_files/map2.json")
