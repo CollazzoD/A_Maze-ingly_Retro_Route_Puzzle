@@ -56,6 +56,10 @@ Output
 |2|Dining Room|None|
 |4|Sun Room|Potted Plant|
 
+Code output
+
+![alt text](img/Map1.PNG)
+
 Example 2
 -------
 
@@ -90,11 +94,15 @@ Output
 |7|Living Room|Potted Plant|
 |4|Sun Room|None|
 |2|Dining Room|None|
-|5|Bedroom|None|
+|5|Bedroom|Pillow|
 |2|Dining Room|None|
 |1|Hallway|None|
 |2|Dining Room|None|
-|3|Kitchen|None|
+|3|Kitchen|Knife|
+
+Code output
+
+![alt text](img/Map2.PNG)
 
 
 Build instructions
@@ -105,12 +113,12 @@ To build the docker image:
 docker build -t mytest .
 ```
 
-To build code:
-```
-docker run -v $(pwd):/mnt -p 9090:9090 -w /mnt rrp ./scripts/build.sh
-```
-
 To run tests:
 ```
-docker run -v $(pwd):/mnt -p 9090:9090 -w /mnt rrp ./scripts/tests.sh
+docker run -v $(pwd):/mnt -p 9090:9090 -w /mnt mytest ./scripts/tests.sh
+```
+
+To run the two examples above:
+```
+docker run -v $(pwd):/mnt -p 9090:9090 -w /mnt mytest ./scripts/run.sh
 ```
