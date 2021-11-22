@@ -1,4 +1,5 @@
 import sys
+from Maze.maze import InvalidMaze
 from Maze.jsonmaze import JsonMaze
 from MazeSolver.bfsmazesolver import BFSMazeSolver
 from tabulate import tabulate 
@@ -32,6 +33,11 @@ if __name__ == "__main__":
 
     list_of_objects = [obj for obj in sys.argv[3:]]
 
+    print("#################################")
+    print(f"Map : {json_filename}")
+    print(f"Starting room : {starting_room}")
+    print(f"List of objects : {list_of_objects}")
+
     try:
         maze = JsonMaze()
         maze.fromFile(json_filename)
@@ -43,6 +49,10 @@ if __name__ == "__main__":
             pretty_printer(maze, maze_solver)
         else:
             print("It does not exist a possible solution")
-                
+
     except FileNotFoundError as err:
         print(f"File {json_filename} was not found in the specified path -> {err}")
+    except InvalidMaze as err:
+        print(f"Invalid Maze -> {err}")
+    
+    print("#################################")
