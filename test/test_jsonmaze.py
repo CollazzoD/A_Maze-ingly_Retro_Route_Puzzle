@@ -125,6 +125,21 @@ class TestMaze(unittest.TestCase):
         self.assertListEqual(ret, ['Knife', 'Spoon'])
         self.assertListEqual(m.objects[3], [])
 
+    def test_maze_class__validateGraph_method(self):
+        m = JsonMaze()
+        
+        test_graph = {
+            1 : [2, 3, 4],
+            2 : []
+        }
+
+        m.graph = test_graph
+        self.assertRaises(InvalidMaze, m._validateGraph)
+
+    def test_maze_class__checkIfNotEmpty_method(self):
+        m = JsonMaze()
+        self.assertRaises(InvalidMaze, m._checkIfNotEmpty)
+
     def test_maze_class_fromFile_method_with_map_1(self):
         test_graph = {
             1 : [2],

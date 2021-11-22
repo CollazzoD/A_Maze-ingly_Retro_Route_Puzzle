@@ -79,7 +79,29 @@ class JsonMaze(Maze):
             
     def _validateJson(self, json_map):
         self._validateRooms(json_map)
-        
+
+    def _checkIfNotEmpty(self):
+        if not self.graph:
+            raise(InvalidMaze(f"Map empty"))
+    
+    # If there's more then 1 room, check if each node has at least a neighbour
+    # Else, check if the node has no neighbours
+    def _validateNeighbours(self):
+        neighbours = [el for el in self.graph.values()]
+        for el in neighbours:
+            if len(self.graph) > 1:
+                if not el:
+                    raise(InvalidMaze(f"Map not well connected"))
+            else:
+                if el:
+                    raise(InvalidMaze(f"Map not well formatted"))
+    
+    # If there's more then 1 room,
+    # check if each node has at least a neighbour 
+    def _validateGraph(self):
+        self._checkIfNotEmpty()
+        self._validateNeighbours()
+
     # Load the map from a json file
     def fromFile(self, json_filename):
         try:
@@ -87,6 +109,7 @@ class JsonMaze(Maze):
                 json_map = json.loads(json_file.read())
                 self._validateJson(json_map)
                 self._createGraph(json_map)
+                self._validateGraph()
         except json.decoder.JSONDecodeError as err:
             raise(InvalidMaze("Not a valid json"))
         
