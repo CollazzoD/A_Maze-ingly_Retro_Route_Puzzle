@@ -37,9 +37,12 @@ if __name__ == "__main__":
         maze.fromFile(json_filename)
 
         maze_solver = BFSMazeSolver()
-        maze_solver.solve(maze, starting_room, list_of_objects)
+        solved = maze_solver.solve(maze, starting_room, list_of_objects)
     
-        pretty_printer(maze, maze_solver)
-        
+        if solved:
+            pretty_printer(maze, maze_solver)
+        else:
+            print("It does not exist a possible solution")
+                
     except FileNotFoundError as err:
         print(f"File {json_filename} was not found in the specified path -> {err}")
