@@ -1,0 +1,36 @@
+{
+    "rooms": [
+        {
+            "id": 1,
+            "name": "Hallway",
+            "north": 2,
+            "objects": []
+        },
+        {
+            "id": 2,
+            "name": "Dining Room",
+            "south": 1,
+            "objects": []
+        },
+        {
+            "id": 3,
+            "name": "Kitchen",
+            "north": 4,
+            "objects": [
+                {
+                    "name": "Knife"
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "name": "Sun Room",
+            "south": 3,
+            "objects": [
+                {
+                    "name": "Potted Plant"
+                }
+            ]
+        }
+    ]
+}

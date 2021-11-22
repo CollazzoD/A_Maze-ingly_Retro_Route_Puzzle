@@ -108,7 +108,8 @@ class TestBFSMazeSolver(unittest.TestCase):
                             [2, []],
                             [4, ['Potted Plant']]]
         b = BFSMazeSolver()
-        b.solve(m, 2, ['Knife', 'Potted Plant'])
+        solved = b.solve(m, 2, ['Knife', 'Potted Plant'])
+        self.assertTrue(solved)
         self.assertListEqual(b.output, expected_output)
 
     def test_BFSMazeSolver_class__checkIfAllObjects_with_map_1(self):
@@ -138,7 +139,8 @@ class TestBFSMazeSolver(unittest.TestCase):
                             [2, []],
                             [3, ['Knife']]]
         b = BFSMazeSolver()
-        b.solve(m, 4, ['Knife', 'Potted Plant', 'Pillow'])
+        solved = b.solve(m, 4, ['Knife', 'Potted Plant', 'Pillow'])
+        self.assertTrue(solved)
         self.assertListEqual(b.output, expected_output)
     
     def test_BFSMazeSolver_class_solve_with_map_2_early_stop(self):
@@ -153,7 +155,8 @@ class TestBFSMazeSolver(unittest.TestCase):
                             [2, []],
                             [5, ['Pillow']]]
         b = BFSMazeSolver()
-        b.solve(m, 4, ['Potted Plant', 'Pillow'])
+        solved = b.solve(m, 4, ['Potted Plant', 'Pillow'])
+        self.assertTrue(solved)
         self.assertListEqual(b.output, expected_output)
 
     def test_BFSMazeSolver_class_solve_with_map_3_multiple_objects_in_same_room(self):
@@ -162,8 +165,20 @@ class TestBFSMazeSolver(unittest.TestCase):
 
         expected_output = [ [1, ['Keys', 'Phone']]]
         b = BFSMazeSolver()
-        b.solve(m, 1, ['Keys', 'Phone'])
+        solved = b.solve(m, 1, ['Keys', 'Phone'])
+        self.assertTrue(solved)
         self.assertListEqual(b.output, expected_output)
+
+    def test_BFSMazeSolver_class_solve_with_map_not_connected(self):
+        m = JsonMaze()
+        m.fromFile("json_files/map_not_connected.json")
+
+        b = BFSMazeSolver()
+        solved = b.solve(m, 1, ['Knife'])
+        self.assertFalse(solved)
+
+        solved = b.solve(m, 3, ['Knife'])
+        self.assertTrue(solved)
 
 if __name__ == '__main__':
     unittest.main()

@@ -36,6 +36,8 @@ class BFSMazeSolver(MazeSolver):
 
         # First room
         self._navigateRoom(maze, starting_room, objects_to_collect)
+        if not objects_to_collect:
+            return True
 
         # Navigate the maze according to path
         for index in range(len(path) - 1):
